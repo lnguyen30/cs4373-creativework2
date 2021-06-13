@@ -5,6 +5,7 @@ import * as Util from './util.js'
 import * as Const from '../model/constant.js'
 import {Reply} from '../model/reply.js';
 import * as  Route from '../controller/route.js'
+import * as Edit from '../controller/edit_reply.js'
 
 export function addViewButtonListeners(){
     //grabs all the forms/values based on the class name
@@ -27,6 +28,22 @@ export function addViewFormSubmitEvent(form){
         await thread_page(threadId);
         Util.enableButton(button, label);
     })
+}
+
+export function addUpdateEventListeners(updateform){
+    //iterates through update form(button) for update button
+    for(let i = 0; i < updateform.length; i++){
+        updateform[i].addEventListener('submit', async e =>{
+            e.preventDefault();
+            //disables button
+            const button = e.target.getElementsByTagName('button')[0];
+            const label = Util.disableButton(button);
+            //passes docId to edit_reply.js in edit controller
+            await Edit.edit_reply(e.target.docId.value)
+            Util.enableButton(button, label);
+        })
+    }
+
 }
 
  export async function thread_page(threadId){
@@ -116,23 +133,37 @@ export function addViewFormSubmitEvent(form){
 
         Util.enableButton(button, label);
 
+
+    // //each time the a reply is added, update replies event listeners are added to each replies
+    const updateRepliesForm = document.getElementsByClassName('form-update-reply');
+    addUpdateEventListeners(updateRepliesForm);
+   
     })
+
+    //each time the thread page is rendered, update replies event listeners are added to each replies
+     const updateRepliesForm = document.getElementsByClassName('form-update-reply');
+     addUpdateEventListeners(updateRepliesForm);
+    
 }
 
 
+// includes update button
+//builds replies for threads
 function buildReplyView(reply){
     return `
-        <div class="border border-primary">
-            <div class="bg-info text-white">
+        <div id="card-${reply.docId}" class="card border border-primary">
+            <div class="card-header bg-info text-white">
                 Replied by ${reply.email} (At ${new Date(reply.timestamp).toString()})
             </div>
-            ${reply.content}
+                <div class="card-body">
+                <p class="card-text"> ${reply.content} </p>
+                <form class="form-update-reply" method="post">
+                    <input type="hidden" name="docId" value=${reply.docId}>
+                    <button class="btn btn-outline-primary" type="post">Update</button>
+                </form>
+            </div>
         </div>
-        <hr>
+        <br>
     `;
+
 }
-/* 1. get thread from Firestore by ID 
-2. get all replies to this thread
-3. dipslay it to the thread
-4. display all reply messages
-5. add a form for a new reply */
