@@ -15,6 +15,10 @@ export const formCreatAccountError = {
 
 }
 
+// form to update reply from update reply modal
+export const formUpdateReply = {form:document.getElementById('form-update-reply')}
+
+
 //top menu
 export const menuSignout = document.getElementById('menu-signout');
 export const menuHome = document.getElementById('menu-home');
@@ -29,6 +33,8 @@ export const modalInfoBoxTitleElement = document.getElementById('modal-infobox-t
 export const modalInfoBoxBodyElement = document.getElementById('modal-infobox-body');
 export const modalCreateThread = new bootstrap.Modal(document.getElementById('modal-create-thread'),{backdrop: 'static'});
 export const modalCreateAccount = new bootstrap.Modal(document.getElementById('modal-create-account'), {backdrop:'static'});
+//modal to update reply
+export const modalUpdateReply = new bootstrap.Modal(document.getElementById('modal-update-reply'), {backdrop: 'static'});
 
 //main content root
 export const root = document.getElementById('root');

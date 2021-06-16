@@ -162,6 +162,30 @@
         </div>
     </div>
 
+<!-- Modal: Update Reply -->
+<div class="modal fade" id="modal-update-reply" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modal-update-reply-title" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-update-reply-title">Update Reply</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <form id="form-update-reply" method="post">
+                   <input type="hidden" name="docId"/>
+                   <div>
+                       Reply:<br><textarea name="content"></textarea>
+                   </div>
+                   <div>
+                       <button type="submit" class="btn btn-outline-primary">Submit</button>
+                   </div>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+
     <!--Body of Page-->
     <div id="root" class="bg-light p-5 m-3 modal-menus-post-auth"></div>
 
