@@ -13,24 +13,48 @@ admin.initializeApp({
 const Constant = require('./constant.js')
 
 //functions to export to client side
+exports.cf_getReplyById = functions.https.onCall(getReplyById);
 
-//checks if user is admin
-function isAdmin(email){
-    return Constant.adminEmails.includes(email);
-}
+// //checks if user is admin
+// function isAdmin(email){
+//     return Constant.adminEmails.includes(email);
+// }
 
-// cloud function to retrieve replies by docid
+// cloud function to retrieve replies by docid, data ==>document(reply)id
 async function getReplyById(data, context){
+    
+    // might use admin account if user account doesnt work out
     //checks if admin is signed in
-   if (!isAdmin(context.auth.token.email)){
-       if(Constant.DEV) console.log('not admin', context.auth.token.email)
-       throw new functions.https.HttpsError('unauthenticated', 'Only admins may update this')
-   }
+    //    if (!isAdmin(context.auth.token.email)){
+    //        if(Constant.DEV) console.log('not admin', context.auth.token.email)
+    //        throw new functions.https.HttpsError('unauthenticated', 'Only admins may update this')
+    //    }
 
-    try{
-
-    }catch(e){
-        if(Constant.DEV) console.log(e)
-        throw new functions.https.HttpsError('internal', 'getReplyById Failed')
+    // user is not logged in, throw error
+    if(!context.auth){
+        if (Constant.DEV) console.log('not logged in', context.auth.token.email)
+        throw new functions.https.HttpsError('unauthenticated', 'only users can invoke update request');
     }
+
+        try{
+            const doc = await admin.firestore().collection(Constant.collectionNames.REPLIES)
+                        .doc(data).get();
+
+        //if doc exists, then construct js reply object
+        if(doc.exists){
+            //destructuring assignment
+            const {threadId, uid, email, timestamp, content} = doc.data();
+            const r =  {threadId, uid, email, timestamp, content}
+            r.docId = doc.id
+            return r;
+        }else{
+            //if doc doesn't exist
+            return null;
+        }
+
+        }catch(e){
+            if(Constant.DEV) console.log(e)
+            throw new functions.https.HttpsError('internal', 'getReplyById Failed')
+        }
 }
+

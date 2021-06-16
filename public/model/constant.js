@@ -6,5 +6,5 @@ export const collectionNames= {
 }
 
 export const adminEmails = [
-    'admin@test.com'
+    'admin@test.com',
 ]

@@ -92,3 +92,19 @@ export async function searchThreads(keywordsArray){
 export async function createAccount(email, password){
     await firebase.auth().createUserWithEmailAndPassword(email,password);
 }
+
+//firebase controller that calls cloud function to get reply by id
+const cf_getReplyById = firebase.functions().httpsCallable('cf_getReplyById'); // grabs the cloud function from index.js
+export async function getReplyById(docId){
+    //result will have the info of reply from docId
+    const result = await cf_getReplyById(docId);
+    
+    //create new reply object if data exists
+    if(result.data){
+        //new reply object
+        const reply = new Reply(result.data)
+        //assigns docId from result id
+        reply.docId = result.data.docId
+        return reply
+    }
+}
