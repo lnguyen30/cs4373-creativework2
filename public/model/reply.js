@@ -1,3 +1,4 @@
+
 export class Reply{
     //constructor for reply object
     constructor(data){
@@ -6,6 +7,18 @@ export class Reply{
         this.email = data.email;
         this.timestamp = data.timestamp;
         this.content = data.content;
+    }
+
+    //to store new reply in firestore
+    serializeForUpdate(){
+        const r = {}
+        if(this.threadId) r.threadId = this.threadId;
+        if(this.uid) r.uid = this.uid;
+        if(this.email) r.email = this.email;
+        if(this.timestamp) r.timestamp = this.timestamp;
+        if(this.content) r.content = this.content;
+        return r;
+        
     }
 
     //to store in Firestore

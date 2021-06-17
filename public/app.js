@@ -3,11 +3,13 @@ import * as Home from './viewpage/home_page.js'
 import * as About from './viewpage/about_page.js'
 import * as Route from './controller/route.js'
 import * as Search from './viewpage/search_page.js'
+import * as Update from './controller/edit_reply.js'
 
 Auth.addEventListeners();
 Home.addEventListeners();
 About.addEventListeners();
 Search.addEventListeners();
+Update.addEventListeners();
 
 window.onload = () =>{
     const pathname = window.location.pathname; // grabs link path from url

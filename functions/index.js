@@ -14,11 +14,29 @@ const Constant = require('./constant.js')
 
 //functions to export to client side
 exports.cf_getReplyById = functions.https.onCall(getReplyById);
+exports.cf_updateReply = functions.https.onCall(updateReply);
 
 // //checks if user is admin
 // function isAdmin(email){
 //     return Constant.adminEmails.includes(email);
 // }
+
+//cloud function to update replies, called in firebase controller
+async function updateReply(replyInfo, context){
+
+    if(!context.auth){
+        if (Constant.DEV) console.log('not logged in', context.auth.token.email)
+        throw new functions.https.HttpsError('unauthenticated', 'only users can invoke update request');
+    }
+    //replyInfo = {docId, data}
+    try{
+        await admin.firestore().collection(Constant.collectionNames.REPLIES)
+            .doc(replyInfo.docId).update(replyInfo.data)
+    }catch(e){
+        if(Constant.DEV) console.log(e)
+        throw new functions.https.HttpsError('internal', 'updateReply Failed')
+    }
+}
 
 // cloud function to retrieve replies by docid, data ==>document(reply)id
 async function getReplyById(data, context){

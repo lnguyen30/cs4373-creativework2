@@ -108,3 +108,15 @@ export async function getReplyById(docId){
         return reply
     }
 }
+
+//called by edit_reply.js to update reply
+const cf_updateReply = firebase.functions().httpsCallable('cf_updateReply');
+export async function updateReply(reply){
+    //pass docId of new reply to docId var
+    const docId = reply.docId;
+    //serialize new reply
+    const data = reply.serializeForUpdate();
+    //cf for new reply, in index.js
+    await cf_updateReply({docId, data})
+    
+}
