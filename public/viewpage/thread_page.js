@@ -159,6 +159,7 @@ function buildReplyView(reply){
                 <p class="card-text"> ${reply.content} </p>
                 <form class="form-update-reply" method="post">
                     <input type="hidden" name="docId" value=${reply.docId}>
+                    <input type="hidden" name="email" value=${reply.email}>
                     <button class="btn btn-outline-primary" type="post">Update</button>
                 </form>
             </div>
