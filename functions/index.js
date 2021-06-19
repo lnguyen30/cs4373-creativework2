@@ -16,10 +16,6 @@ const Constant = require('./constant.js')
 exports.cf_getReplyById = functions.https.onCall(getReplyById);
 exports.cf_updateReply = functions.https.onCall(updateReply);
 
-// //checks if user is admin
-// function isAdmin(email){
-//     return Constant.adminEmails.includes(email);
-// }
 
 //cloud function to update replies, called in firebase controller
 async function updateReply(replyInfo, context){
@@ -41,12 +37,6 @@ async function updateReply(replyInfo, context){
 // cloud function to retrieve replies by docid, data ==>document(reply)id
 async function getReplyById(data, context){
     
-    // might use admin account if user account doesnt work out
-    //checks if admin is signed in
-    //    if (!isAdmin(context.auth.token.email)){
-    //        if(Constant.DEV) console.log('not admin', context.auth.token.email)
-    //        throw new functions.https.HttpsError('unauthenticated', 'Only admins may update this')
-    //    }
 
     // user is not logged in, throw error
     if(!context.auth){

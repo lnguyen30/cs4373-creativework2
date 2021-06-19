@@ -30,6 +30,7 @@ export function addViewFormSubmitEvent(form){
     })
 }
 
+// event listener for update button on thread page
 export function addUpdateEventListeners(updateform){
     //iterates through update form(button) for update button
     for(let i = 0; i < updateform.length; i++){

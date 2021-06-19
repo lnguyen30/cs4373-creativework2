@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site":"",
+    "site":"creative-work-2-lvn-wsp",
     "public": "public",
     "ignore": [
       "firebase.json",
